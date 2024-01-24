@@ -2,7 +2,7 @@
 FROM python:3.11
 
 # 作業ディレクトリの設定
-WORKDIR /app
+WORKDIR /code
 
 # 必要なパッケージのインストール
 RUN apt-get update && \
@@ -16,7 +16,7 @@ RUN echo "alias ll='ls -l --color=auto'" >> ~/.bashrc
 RUN pip install fastapi uvicorn
 
 # アプリケーションのコピー
-COPY ./app /app
+COPY . /code
 
 # デフォルトコマンドの設定（Uvicornのデフォルトポート8000を使用）
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0"]
