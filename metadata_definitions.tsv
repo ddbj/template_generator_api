@@ -1,11 +1,10 @@
-# Ver. 20240124						登録に必須		DFAST自動補完の値	OpenAPIで利用しない			
+# Ver. 20240124						登録に必須			OpenAPIで利用しない			
 # oprnapi:name	oprnapi:description				openapi:type	openapi:required	openapi:pattern	openapi:default				
 # name	label	qualifier	feature	entry	type	required	pattern	default_value	private	example	help	error_message
-#---------- ORGANISM_INFO  (Only used internally in DFAST) ----------												
 #---------- DIVISON ----------												
 division	Data Division	division	DIVISION	COMMON	array	FALSE	(CON)|(ENV)|(EST)|(GSS)|(HTC)|(HTG)|(STS)|(SYN)|(TSA)		private			
 #---------- DATATYPE ----------												
-dataType	Data Type	type	DATATYPE	COMMON	string	FALSE	(WGS)|(TPA)		private			
+#dataType	Data Type	type	DATATYPE	COMMON	string	FALSE	(WGS)|(TPA)		private			
 #---------- KEYWORD ----------												
 keyword	Keyword	keyword	KEYWORD	COMMON	array	FALSE	(WGS)|(TSA)|(STANDARD_DRAFT)|(HIGH_QUALITY_DRAFT)|(IMPROVED_HIGH_QUALITY_DRAFT)|(NON_CONTIGUOUS_FINISHED)|(Transcriptome Shotgun Assembly)					
 #---------- DBLINK ----------												
@@ -14,28 +13,28 @@ biosample	BioSample ID	biosample	DBLINK	COMMON	array	TRUE	SAM[A-Z]{1,2}\d{4,8}
 sra	SRA accession	sequence read archive	DBLINK	COMMON	array	FALSE	[DES]RR\d{6}					
 #												
 #---------- SUBMITTER ----------												
-submitter	Submitter	ab_name	SUBMITTER	COMMON	array	TRUE	[A-Za-z0-9',\.\-]*					
+submitter	Submitter	ab_name	SUBMITTER	COMMON	array	TRUE	[A-Za-z0-9',\.\-]*			Robertson,G.R.; Mishima,H.		
 consrtm	Consortium	consrtm	SUBMITTER	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-contact	Contact Person	contact	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9 ',\.\-]*					
-email	Email	email	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9_@,\.\-]*					
-url	URL	url	SUBMITTER	COMMON	string	FALSE	[^ `\\<>]*					
-phone	Phone	phone	SUBMITTER	COMMON	string	TRUE	[\d\-]{0,16}					
-phext	Phone ext.	phext	SUBMITTER	COMMON	string	FALSE	[\d\-]{0,16}					
-fax	Fax	fax	SUBMITTER	COMMON	string	FALSE	[\d\-]{0,16}					
-institute	Institute	institute	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-department	Department	department	SUBMITTER	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-country	Country	country	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-state	State	state	SUBMITTER	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-city	City	city	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-street	Street	street	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-ZIP	ZIP	zip	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9\-]{0,16}					
+contact	Contact Person	contact	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9 ',\.\-]*			Hanako Mishima		
+email	Email	email	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9_@,\.\-]*			mishima@ddbj.nig.ac.jp		
+url	URL	url	SUBMITTER	COMMON	string	FALSE	[^ `\\<>]*			http://www.ddbj.nig.ac.jp/		
+phone	Phone	phone	SUBMITTER	COMMON	string	TRUE	[\d\-]{0,16}			81-55-981-6853		
+phext	Phone ext.	phext	SUBMITTER	COMMON	string	FALSE	[\d\-]{0,16}			3207		
+fax	Fax	fax	SUBMITTER	COMMON	string	FALSE	[\d\-]{0,16}			81-55-981-6853		
+institute	Institute	institute	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*			National Institute of Genetics		
+department	Department	department	SUBMITTER	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*			DNA Data Bank of Japan		
+country	Country	country	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*			Japan		
+state	State	state	SUBMITTER	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*			Shizuoka		
+city	City	city	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*			Mishima		
+street	Street	street	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9',@#:_ \(\)\.\-]*			Yata 1111		
+zip	ZIP	zip	SUBMITTER	COMMON	string	TRUE	[A-Za-z0-9\-]{0,16}			411-8540		
 #												
 #---------- Reference ----------												
-reference	Reference Title	title	REFERENCE	COMMON	string	TRUE	[^`\\]*					
-author	Author	ab_name	REFERENCE	COMMON	array	TRUE	[A-Za-z0-9',\.\-]*					
-refconsrtm	Consortium	consrtm	REFERENCE	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
-status	Status	status	REFERENCE	COMMON	string	TRUE	(Unpublished)|(In press)|(Published)	Unpublished				
-year	Year	year	REFERENCE	COMMON	string	TRUE	\d{4}					
+reference	Reference Title	title	REFERENCE	COMMON	string	TRUE	[^`\\]*			Mouse Genome Sequencing		
+author	Author	ab_name	REFERENCE	COMMON	array	TRUE	[A-Za-z0-9',\.\-]*			Robertson,G.R.; Mishima,H		
+ref_consrtm	Consortium	consrtm	REFERENCE	COMMON	string	FALSE	[A-Za-z0-9',@#:_ \(\)\.\-]*					
+status	Status	status	REFERENCE	COMMON	string	TRUE	(Unpublished)|(In press)|(Published)	Unpublished		Unpublished		
+year	Year	year	REFERENCE	COMMON	string	TRUE	\d{4}			2024		
 journal	Journal	journal	REFERENCE	COMMON	string	FALSE	[^`<>\\]*					
 volume	Volume	volume	REFERENCE	COMMON	string	FALSE	[A-Za-z0-9\-\(\),\. ]{0,20}					
 start_page	Start Page	start_page	REFERENCE	COMMON	string	FALSE	[A-Za-z0-9\-]{0,8}					
@@ -43,21 +42,21 @@ end_page	End Page	end_page	REFERENCE	COMMON	string	FALSE	[A-Za-z0-9\-]{0,8}
 pubmed	PubMed ID	pubmed	OTHER	DFAST	string	FALSE	\d{0,12}					
 #												
 #---------- DATE ----------												
-holdDate	Hold Date	hold_date	DATE	COMMON	string	FALSE	\d{8}					
+hold_date	Hold Date	hold_date	DATE	COMMON	string	FALSE	\d{8}			20260331		
 #												
 #---------- COMMENT ----------												
-comment	Comment	line	COMMENT	COMMON	array	FALSE	[^`<>\\]*					
-estcomment	Comment for EST strand	line	COMMENT:EST	COMMON	string	FALSE	(3'\-EST sequences are presented as sense strand\.)|(3'\-EST sequences are presented as anti\-sense strand\.)		private			
+comment	Comment	line	COMMENT	COMMON	array	FALSE	[^`<>\\]*			Please visit our website; URL: http://www.ddbj.nig.ac.jp/		
+est_comment	Comment for EST strand	line	COMMENT:EST	COMMON	string	FALSE	(3'\-EST sequences are presented as sense strand\.)|(3'\-EST sequences are presented as anti\-sense strand\.)		private			
 #												
 #---------- ST_COMMENT ----------												
 tagset_id	Tagset ID	tagset_id	ST_COMMENT	COMMON	string	FALSE	(Genome\-Assembly\-Data)|(Assembly\-Data)		private			
-Finishing_Goal	Finishing Goal of the Project	Finishing Goal	ST_COMMENT	COMMON	string	FALSE	(Standard Draft)|(High\-Quality Draft)|(Improved High\-Quality Draft)|(Noncontiguous Finished)|(Finished)					
-Current_Finishing_Status	Current Finishing Status	Current Finishing Status	ST_COMMENT	COMMON	string	FALSE	(Standard Draft)|(High\-Quality Draft)|(Improved High\-Quality Draft)|(Noncontiguous Finished)|(Finished)					
-assemblyMethod	Assembly Method	Assembly Method	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_;:\[\]\(\)\-\.]+					
-Assembly_Name	Assembly Name	Assembly Name	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_\[\]\(\)\-\.]+					
-coverage2	Coverage	Coverage	ST_COMMENT	COMMON	string	FALSE	\d+[Xx]					
-coverage	Genome Coverage	Genome Coverage	ST_COMMENT	COMMON	string	FALSE	\d+[Xx]					
-sequencingTechnology	Sequencing Technology	Sequencing Technology	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_;:\[\]\(\)\-\.]+					
+finishing_goal	Finishing Goal of the Project	Finishing Goal	ST_COMMENT	COMMON	string	FALSE	(Standard Draft)|(High\-Quality Draft)|(Improved High\-Quality Draft)|(Noncontiguous Finished)|(Finished)					
+current_finishing_status	Current Finishing Status	Current Finishing Status	ST_COMMENT	COMMON	string	FALSE	(Standard Draft)|(High\-Quality Draft)|(Improved High\-Quality Draft)|(Noncontiguous Finished)|(Finished)					
+assembly_method	Assembly Method	Assembly Method	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_;:\[\]\(\)\-\.]+					
+assembly_name	Assembly Name	Assembly Name	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_\[\]\(\)\-\.]+					
+coverage	Coverage	Coverage	ST_COMMENT	COMMON	string	FALSE	\d+[Xx]					
+genome_coverage	Genome Coverage	Genome Coverage	ST_COMMENT	COMMON	string	FALSE	\d+[Xx]					
+sequencing_technology	Sequencing Technology	Sequencing Technology	ST_COMMENT	COMMON	string	FALSE	[A-Za-z0-9 ,_;:\[\]\(\)\-\.]+					
 #												
 #---------- source ----------												
 organism	organism	organism	source	COMMON/ENTRY	string	TRUE	[A-Za-z0-9_, \[\]\(\)\-\.]+					
@@ -117,4 +116,4 @@ tissue_lib	tissue_lib	tissue_lib	source	EX_SOURCE	string	FALSE	.*
 tissue_type	tissue_type	tissue_type	source	EX_SOURCE	string	FALSE	.*					
 transgenic	transgenic	transgenic	source	EX_SOURCE	boolean	FALSE	(YES)|(NO)					
 variety	variety	variety	source	EX_SOURCE	string	FALSE	.*					
-typeStrain	Type Strain	typeStrain	source	EX_SOURCE	string	FALSE	(YES)|(NO)					
+type_strain	Type Strain	typeStrain	source	EX_SOURCE	string	FALSE	(YES)|(NO)					
