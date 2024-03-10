@@ -1,0 +1,288 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDBJ JSON Schema Example for multi-REFERENCE",
+    "description": "Example of json schema for REFERENCE in DDBJ submission template",
+    "definitions": {
+        "reference": {
+            "properties": {
+                "title": {
+                    "name": "title",
+                    "label": "Reference Title",
+                    "qualifier": "title",
+                    "feature": "REFERENCE",
+                    "entry": "COMMON",
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9 ]*$",
+                    "example": "Mouse Genome Sequencing",
+                    "help": "Title of the paper associated to the submission."
+                },
+                "author": {
+                    "name": "author",
+                    "label": "Author",
+                    "qualifier": "keyword",
+                    "feature": "REFERENCE",
+                    "entry": "COMMON",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9',\\.\\-]*$"
+                    },
+                    "example": [
+                        "Robertson,G.R.",
+                        "Mishima,H."
+                    ],
+                    "help": "Keyword for the data division. Optional. For example, WGS, TSA, GSS, EST, etc."
+                },
+                "status": {
+                    "name": "status",
+                    "label": "Status",
+                    "qualifier": "status",
+                    "feature": "REFERENCE",
+                    "entry": "COMMON",
+                    "type": "string",
+                    "enum": [
+                        "Unpublished",
+                        "In press",
+                        "Published"
+                    ],
+                    "example": "WGS",
+                    "help": "Reference status",
+                    "default": "Unpublished"
+                },
+                "year": {
+                    "name": "year",
+                    "label": "Year",
+                    "qualifier": "year",
+                    "feature": "REFERENCE",
+                    "entry": "COMMON",
+                    "type": "integer",
+                    "minimum": 1980,
+                    "maximum": 2100,
+                    "example": "2024",
+                    "help": "Reference year"
+                }
+            },
+            "dependencies": {
+                "status": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": [
+                                        "Unpublished"
+                                    ]
+                                },
+                                "year": {
+                                    "type": "integer",
+                                    "minimum": 1980,
+                                    "maximum": 2100
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": [
+                                        "In press"
+                                    ]
+                                },
+                                "journal": {
+                                    "name": "journal",
+                                    "label": "Journal",
+                                    "qualifier": "journal",
+                                    "feature": "REFERENCE",
+                                    "entry": "COMMON",
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                    "example": "Nature",
+                                    "help": "Journal name"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": [
+                                        "Published"
+                                    ]
+                                },
+                                "year": {
+                                    "type": "integer",
+                                    "minimum": 1980,
+                                    "maximum": 2100
+                                },
+                                "journal": {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "volume": {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "start_page": {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "end_page": {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "pubmed_id": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]*$"
+                                },
+                                "test": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": [
+                                            "a",
+                                            "b",
+                                            "c"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "journal"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "title"
+            ]                
+        }
+
+    },
+    "type": "object",
+    "properties": {
+        "references": {
+            "title": "References",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "reference": {
+                        "title": "Reference",
+                        "$ref": "#/definitions/reference"
+                    }
+                }
+            }
+        },
+        "datatype": {
+            "title": "Data Type",
+            "type": "string",
+            "enum": [
+                "GNM", "WGS", "TSA"
+            ]
+        },
+        "bioproject": {
+            "title": "Bioproject",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$"
+        },
+        "biosample": {
+            "title": "Biosample",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "sra": {
+            "title": "Sequence Read Archive",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "comment": {"type": "string"},
+        "submitter": {
+            "name": "submitter",
+            "title": "Submitter",
+            "qualifier": "ab_name",
+            "feature": "SUBMITTER",
+            "entry": "COMMON",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9',\\.\\-]*$"
+            },
+            "example": [
+                "Robertson,G.R.",
+                "Mishima,H."
+            ],
+            "help": "hoge"
+        },
+        "consrtm": {
+            "title": "Consortium",
+            "type": "string"
+        },
+        "contact": {
+            "title": "Contact Person",
+            "type": "string",
+            "default": "DDBJ"
+        },
+        "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+        },
+
+        "category": {
+            "title": "Data Category",
+            "anyOf": [
+                {
+                    "properties": {
+                        "datatype": {"enum": ["WGS"]},
+                        "keyword": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT"],
+                                "default": ["WGS", "STANDARD_DRAFT"]
+                            }
+                        }
+                    },
+                    "required": []
+                },
+                {
+                    "properties": {
+                        "datatype": {"enum": ["TSA"]},
+                        "keyword": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+                            }
+                        }
+                    },
+                    "required": []
+                }
+            ]
+        
+        } 
+    },
+    "required": [
+        
+    ],
+    "if": {
+        "properties": {
+            "datatype": {"const": "TSA"}
+        },
+        "required": ["datatype"]
+    },
+    "then": {
+        "required": ["sra"],
+        "properties": {
+            "sra": {
+                "minItems": 1
+            }
+        }
+    }
+}

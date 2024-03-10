@@ -1,0 +1,72 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDBJ JSON Schema Example (minimum)",
+    "description": "Minimum example of json schema for DDBJ submission template",
+    "type": "object",
+    "properties" :{
+        "data_type": {
+            "title": "Data Type",
+            "type": "string",
+            "enum": ["", "WGS", "TLS", "TPA", "TPA-WGS"],
+            "description": "When WGS is selected, choose appropriate keyword. \"WGS\" at at least one WGS-related keyword must be selected."  
+        },
+        "division": {
+            "title": "Data Division",
+            "type": "string",
+            "description": "Keyword for the data division. Optional. For example, WGS, TSA, GSS, EST, etc.",
+            "enum": ["CON", "ENV", "TSA"]
+        },
+        "keyword": {
+            "title": "Keyword",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "ENV", "MAG", "Metagenome Assembled Genome"]
+            },
+            "uniqueItems": true,
+            "description": "Keyword for the submission. For example, WGS, TSA, GSS, EST, etc."           
+        },
+        "bioproject": {
+            "title": "BioProject ID",
+            "type": "string",
+            "pattern": "^PRJ[A-Z]{1,2}[0-9]{4,8}$",
+            "description": "BioProject Accession number e.g. PRJD99999"
+        },
+        "biosample": {
+            "title": "BioSample ID",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^SAMD[0-9]*$"
+            }
+        },
+        "contact": {
+            "title": "Contact Person",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 \\.,\\-]*$",
+            "description": "Full name of the contact person. Must be one of the submitters."
+        }
+    },
+    "required": ["data_type", "contact"],
+    "if": {
+        "properties": {
+            "data_type": {"const": "WGS"}
+        },
+        "required": ["data_type"]
+    },
+    "then": {
+        "properties": {
+            "keyword": {
+                "items": {
+                    "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                },
+                "default": ["WGS", "STANDARD_DRAFT"],
+                "contains": {"const": "WGS"},
+                "minItems": 2,
+                "maxItems": 2
+            }
+        },
+        "required": ["keyword"]
+    }
+
+}

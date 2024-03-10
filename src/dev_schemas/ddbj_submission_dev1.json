@@ -1,0 +1,363 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDBJ JSON Schema Example",
+    "description": "Example of json schema for DDBJ submission template",
+    "definitions": {
+        "keyword": {
+            "title": "Keyword",
+            "type": "array",
+            "items": {
+                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "ENV", "MAG", "Metagenome Assembled Genome"]
+            },
+            "uniqueItems": true
+        },
+        "division": {
+            "title": "Data Division",
+            "type": "string",
+            "enum": ["CON", "ENV", "EST", "GSS", "HTC", "HTG", "STS", "SYN", "TSA"]
+        },
+        "datatype": {
+            "title": "Data Type",
+            "type": "string",
+            "enum": ["WGS", "TLS", "TPA", "TPA-WGS"]
+        },
+        "ab_name": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9',\\.\\-]*$"
+            },
+            "example": [
+                "Robertson,G.R.",
+                "Mishima,H."
+            ],
+            "help": "Keyword for the data division. Optional. For example, WGS, TSA, GSS, EST, etc."
+        },
+        "reference": {
+            "title": "Reference",
+            "properties": {
+                "title": {
+                    "title": "Reference Title",
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9 ]*$",
+                    "example": "Mouse Genome Sequencing",
+                    "help": "Title of the paper associated to the submission."
+                },
+                "author": {
+                    "title": "Author",
+                    "$ref": "#/definitions/ab_name"
+                },
+                "status": {
+                    "title": "Status",
+                    "type": "string",
+                    "enum": ["Unpublished", "In press", "Published"],
+                    "example": "WGS",
+                    "help": "Reference status",
+                    "default": "Unpublished"
+                },
+                "year": {
+                    "title": "Year",
+                    "type": "integer",
+                    "minimum": 1980,
+                    "maximum": 2100,
+                    "example": "2024",
+                    "help": "Reference year"
+                }
+            },
+            "dependencies": {
+                "status": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": ["Unpublished"]
+                                },
+                                "year": {
+                                    "type": "integer",
+                                    "minimum": 1980,
+                                    "maximum": 2100
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": ["In press"]
+                                },
+                                "journal": {
+                                    "title": "Journal",
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                    "example": "Nature",
+                                    "help": "Journal name"
+                                }
+                            },
+                            "required": ["journal"]
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": [
+                                        "Published"
+                                    ]
+                                },
+                                "year": {
+                                    "type": "integer",
+                                    "title": "Year",
+                                    "minimum": 1980,
+                                    "maximum": 2100
+                                },
+                                "journal": {
+                                    "title": "Journal",
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                    "example": "Nature",
+                                    "help": "Journal name"
+                                },
+                                "volume": {
+                                    "type": "string",
+                                    "title": "Volume",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "start_page": {
+                                    "type": "string",
+                                    "title": "Start Page",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "end_page": {
+                                    "type": "string",
+                                    "title": "End Page",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "pubmed_id": {
+                                    "type": "string",
+                                    "title": "PubMed ID",
+                                    "pattern": "^[0-9]*$"
+                                }
+                            },
+                            "required": ["journal", "volume", "start_page"]
+                        }
+                    ]
+                }
+            },
+            "required": ["title", "year", "author"]                
+        },
+        "submission_category": {
+            "type": "object",
+            "tile": "TEST",
+            "properties": {
+                "category": {
+                    "title": "Category",
+                    "type": "string",
+                    "enum": [
+                        "GNM", "WGS", "TSA", "MAG", "MISC"
+                    ]
+                }
+            },
+            "allOf": [
+                {
+        
+                    "if": {
+                        "properties": {
+                            "category": {"const": "GNM"}
+                        },
+                        "required": ["category"]
+                    },
+                    "then": {
+                    }
+                },
+                {
+        
+                    "if": {
+                        "properties": {
+                            "category": {"const": "WGS"}
+                        },
+                        "required": ["category"]
+                    },
+                    "then": {
+                        "properties": {
+                            "datatype": {
+                                "$ref": "#/definitions/datatype",
+                                "enum": ["WGS"],
+                                "const": "WGS"
+                            },
+                            "keyword": {
+                                "$ref": "#/definitions/keyword",
+                                "items": {
+                                    "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                                },
+                                "default": ["WGS", "STANDARD_DRAFT"],
+                                "contains": {"const": "WGS"},
+                                "minItems": 2,
+                                "maxItems": 2
+                            }
+                        },
+                        "required": ["keyword", "datatype"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "category": {"const": "TSA"}
+                        },
+                        "required": ["category"]
+                    },
+                    "then": {
+                        "properties": {
+                            "division": {
+                                "$ref": "#/definitions/division",
+                                "enum": ["TSA"],
+                                "default": "TSA"
+                            },
+                            "keyword": {
+                                "$ref": "#/definitions/keyword",
+                                "items": {
+                                    "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+                                },
+                                "contains": {"const": "TSA"},
+                                "minItems": 2,
+                                "maxItems": 2
+                            }
+                        },
+                        "required": ["keyword"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "category": {"const": "MAG"}
+                        },
+                        "required": ["category"]
+                    },
+                    "then": {
+                        "properties": {
+                            "datatype": {
+                                "$ref": "#/definitions/datatype",
+                                "enum": ["WGS"]
+                            },
+                            "division": {
+                                "$ref": "#/definitions/division",
+                                "enum": ["ENV"],
+                                "default": "ENV"
+                            },
+                            "keyword": {
+                                "$ref": "#/definitions/keyword",
+                                "items": {
+                                    "enum": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                                },
+                                "default": ["ENV", "MAG", "Metagenome Assembled Genome"],
+                                "minItems": 3,
+                                "maxItems": 6,
+                                "contains": {"const": "ENV"}
+                            }
+                        },
+                        "if": {
+                            "properties": {
+                                "datatype": { "const": "WGS"}
+                            },
+                            "required": ["datatype"]
+                        },
+                        "then": {
+                            "properties": {
+                                "keyword": {
+                                    "minItems": 5, "maxItems": 5,
+                                    "contains": {"const": "WGS"}
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "category": {"const": "MISC"}
+                        },
+                        "required": ["category"]
+                    },
+                    "then": {
+                        "properties": {
+                            "datatype": {
+                                "$ref": "#/definitions/datatype"
+                            },
+                            "division": {
+                                "$ref": "#/definitions/division"
+                            },
+                            "keyword": {
+                                "$ref": "#/definitions/keyword"
+                            }
+                        }
+                    }
+                }        
+            ]
+        
+        }
+    },
+    "type": "object",
+    "properties": {
+        "submission_category": {
+            "title": "Data Submission Category",
+            "$ref": "#/definitions/submission_category"
+        },
+        "bioproject": {
+            "title": "BioProject ID",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$"
+        },
+        "biosample": {
+            "title": "BioSample ID",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "sra": {
+            "title": "SRA Accession",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "submitter": {
+            "title": "Submitter",
+            "$ref": "#/definitions/ab_name"
+        },
+        "consrtm": {
+            "title": "Consortium",
+            "type": "string"
+        },
+        "contact": {
+            "title": "Contact Person",
+            "type": "string",
+            "default": "DDBJ"
+        },
+        "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+        },
+        "references": {
+            "title": "References",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "reference": {
+                        "$ref": "#/definitions/reference"
+                    }
+                }
+            },
+            "minItems": 1
+        },
+        "comment": {
+            "type": "array",
+            "title": "Comment",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}
+  

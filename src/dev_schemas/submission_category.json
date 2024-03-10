@@ -1,0 +1,198 @@
+{
+    "title": "Data Submission Category",
+    "definitions": {
+        "keyword": {
+            "title": "Keyword",
+            "type": "array",
+            "items": {
+                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "ENV", "MAG", "Metagenome Assembled Genome"]
+            },
+            "uniqueItems": true
+        },
+        "wgs_keyword": {
+            "title": "Keyword (WGS)",
+            "type": "array",
+            "items": {
+                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+            },
+            "maxItems": 2,
+            "uniqueItems": true
+        },
+        "keyword_env": {
+            "title": "Keyword (ENV)",
+            "type": "array",
+            "items": {
+                "enum": ["ENV", "MAG", "Metagenome Assembled Genome"]
+            },
+            "uniqueItems": true
+        },
+        "tsa_keyword": {
+            "title": "Keyword",
+            "type": "array",
+            "items": {
+                "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+            },
+            "minItems": 1,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "default": ["TSA", "Transcriptome Shotgun Assembly"],
+            "allOf": [{"contains": {"const": "TSA"}}, {"contains": {"const": "Transcriptome Shotgun Assembly"}}]
+        },
+        "division": {
+            "title": "Data Division",
+            "type": "string",
+            "enum": ["CON", "ENV", "EST", "GSS", "HTC", "HTG", "STS", "SYN", "TSA"]
+        },
+        "datatype": {
+            "title": "Data Type",
+            "type": "string",
+            "enum": ["WGS", "TLS", "TPA", "TPA-WGS"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "submission_category": {
+            "title": "Data Submission Category",
+            "type": "string",
+            "enum": [
+                "GNM", "WGS", "TSA", "MAG", "MISC"
+            ]
+        }
+    },
+    "allOf": [
+        {
+
+            "if": {
+                "properties": {
+                    "submission_category": {"const": "GNM"}
+                },
+                "required": ["submission_category"]
+            },
+            "then": {
+            }
+        },
+        {
+
+            "if": {
+                "properties": {
+                    "submission_category": {"const": "WGS"}
+                },
+                "required": ["submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "datatype": {
+                        "$ref": "#/definitions/datatype",
+                        "enum": ["WGS"],
+                        "default": "WGS"
+                    },
+                    "keyword": {
+                        "$ref": "#/definitions/keyword",
+                        "items": {
+                            "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                        },
+                        "default": ["WGS", "STANDARD_DRAFT"],
+                        "contains": {"const": "WGS"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    }
+                },
+                "required": ["keyword", "datatype"]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "submission_category": {"const": "TSA"}
+                },
+                "required": ["submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "division": {
+                        "$ref": "#/definitions/division",
+                        "enum": ["TSA"],
+                        "default": "TSA"
+                    },
+                    "keyword": {
+                        "$ref": "#/definitions/keyword",
+                        "items": {
+                            "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+                        },
+                        "contains": {"const": "TSA"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    }
+                },
+                "required": ["keyword"]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "submission_category": {"const": "MAG"}
+                },
+                "required": ["submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "datatype": {
+                        "$ref": "#/definitions/datatype",
+                        "enum": ["WGS"]
+                    },
+                    "division": {
+                        "$ref": "#/definitions/division",
+                        "enum": ["ENV"],
+                        "default": "ENV"
+                    },
+                    "keyword": {
+                        "$ref": "#/definitions/keyword",
+                        "items": {
+                            "enum": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                        },
+                        "default": ["ENV", "MAG", "Metagenome Assembled Genome"],
+                        "minItems": 3,
+                        "maxItems": 6,
+                        "contains": {"const": "ENV"}
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "datatype": { "const": "WGS"}
+                    },
+                    "required": ["datatype"]
+                },
+                "then": {
+                    "properties": {
+                        "keyword": {
+                            "minItems": 5, "maxItems": 5,
+                            "contains": {"const": "WGS"}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "submission_category": {"const": "MISC"}
+                },
+                "required": ["submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "datatype": {
+                        "$ref": "#/definitions/datatype"
+                    },
+                    "division": {
+                        "$ref": "#/definitions/division"
+                    },
+                    "keyword": {
+                        "$ref": "#/definitions/keyword"
+                    }
+                }
+            }
+        }        
+    ]
+}
+  

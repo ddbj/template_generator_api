@@ -13,7 +13,7 @@ RUN apt-get update && \
 RUN echo "alias ll='ls -l --color=auto'" >> ~/.bashrc
 
 # FastAPIとUvicornのインストール
-RUN pip install fastapi uvicorn
+RUN pip install fastapi uvicorn jsonschema
 
 # アプリケーションのコピー
 COPY . /code

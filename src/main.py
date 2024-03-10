@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from .metadata import Metadata
 from .schemas import MetadataRequest, MetadataResponse
+
+from .dev_router import router as dev_router
 app = FastAPI()
+app.include_router(dev_router)
 
 VERSION = "0.2.0"
 
@@ -101,6 +104,8 @@ async def validate_metadata(metadata_request: MetadataRequest):
     metadata = Metadata.initialize(**metadata_request.model_dump())
     metadata.validate_values()
     return MetadataResponse(metadata=metadata, template=metadata.to_mss())
+
+
 
 
 

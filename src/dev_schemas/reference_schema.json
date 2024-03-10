@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDBJ JSON Schema Example for REFERENCE",
+    "description": "Example of json schema for REFERENCE in DDBJ submission template",
+    "type": "object",
+    "properties" :{
+        "title": {
+            "title": "Reference Title",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "description": "Title of the paper associated to the submission."
+        },
+        "author": {
+            "title": "Author",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9',\\.\\-]*$",
+                "description": "Author name. example. Smith,J. or Suzuki,H."
+            },
+            "minItems": 1,
+            "description": "Author name. example. Smith,J. or Suzuki,H."
+        },
+        "status": {
+            "title": "Status",
+            "type": "string",
+            "enum": ["Unpublished", "In press", "Published"],
+            "description": "Reference status",
+            "default": "Unpublished"
+        },
+        "year": {
+            "title": "Year",
+            "type": "integer",
+            "minimum": 1980,
+            "maximum": 2100,
+            "description": "Reference year"           
+        }
+    },
+    "required": ["title", "author", "status", "year"],    
+    "dependencies": {
+        "status": {
+            "oneOf": [
+                {
+                    "properties": {
+                        "status": {
+                            "enum": ["Unpublished"]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "status": {
+                            "enum": ["In press"]
+                        },
+                        "journal": {
+                            "title": "Journal",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                            "description": "Journal name"
+                        }
+                    },
+                    "required": ["journal"]
+                },
+                {
+                    "properties": {
+                        "status": {
+                            "enum": ["Published"]
+                        },
+                        "journal": {
+                            "title": "Journal",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                            "description": "Journal name"
+                        },
+                        "volume": {
+                            "title": "Volume",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "start_page": {
+                            "title": "Start page",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "end_page": {
+                            "title": "End page",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "pubmed_id": {
+                            "title": "PubMed ID (optional)",
+                            "type": "string",
+                            "pattern": "^[0-9]*$"
+                        }                        
+                    },
+                    "required": ["journal", "volume", "start_page"],
+                    "dependencies": {"end_page": ["start_page"]}
+                }
+            ]
+        }
+    }   
+}

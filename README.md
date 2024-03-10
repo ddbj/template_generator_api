@@ -9,6 +9,54 @@ docker-compose up
 
 API Docs: http://localhost:8000/docs
 
+# JSON schema 開発版
+
+## テスト用 schema  
+
+[`src/dev_schemas`](src/dev_schemas) 以下に配置。
+
+| 名前 | ファイル名 | 説明 |
+| ---- | ---- | ---- |
+| minimum | [example_schema_minimum.json](src/dev_schemas/example_schema_minimum.json) | テスト用最小構成 | 
+| submission_category | [submission_category.json](src/dev_schemas/submission_category.json)  | 登録カテゴリごとに条件分岐 |
+| reference | [reference_schema.json](src/dev_schemas/reference_schema.json)  | 参考文献用 |
+| multi_reference | [reference_schema_multi.json](src/dev_schemas/reference_schema_multi.json)  | 参考文献の複数指定を許容 |
+| ddbj_dev1 | [ddbj_submission_dev1.json](src/dev_schemas/ddbj_submission_dev1.json)  | 全部入り |
+
+## schema 取得
+```
+curl -X 'POST' \
+  'http://localhost:8000/dev/schema' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "minimum"
+}'
+```
+`name`の部分は `minimum`, `submission_category`, `reference`, `multi_reference`, `ddbj_dev1` から指定。
+
+## validation
+Python の jsonschema ライブラリを使用。
+```
+curl -X 'POST' \
+  'http://localhost:8000/dev/validate' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "minimum",
+  "data": { "keyword": [ "WGS", "STANDARD_DRAFT" ], "biosample": [], "data_type": "WGS", "contact": "John" }
+}'
+```
+
+## memo
+React Json Schema Form でフォームが生成できることを確認。  
+`definitions` を使用してサブスキーマに分割した場合、フォームが生成されるもののdefault値が反映されない問題あり (`submission_category` では動いたが、`dev1` にすると期待通りに動かない。validation はできたので正しい形式にはなっていると思われる。)  
+[svelte 用のライブラリ](https://github.com/webgme/svelte-jsonschema-form) に対応していない可能性あり。[Svelte JSON Schema Form Playground](https://github.com/webgme/svelte-jsonschema-form#:~:text=Svelte%20JSON%20Schema%20Form%20Playground) で試すと一部動作しなかった。
+
+
+---
+# 以下は、独自仕様のAPI版の情報
+
 ## 基本機能
 ### メタデータ入力欄の定義情報およびMSS登録ファイルのテンプレートを返す
 #### リクエストについて
