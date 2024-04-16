@@ -22,6 +22,7 @@ API Docs: http://localhost:8000/docs
 | reference | [reference_schema.json](src/dev_schemas/reference_schema.json)  | 参考文献用 |
 | multi_reference | [reference_schema_multi.json](src/dev_schemas/reference_schema_multi.json)  | 参考文献の複数指定を許容 |
 | ddbj_dev1 | [ddbj_submission_dev1.json](src/dev_schemas/ddbj_submission_dev1.json)  | 全部入り |
+| ddbj_dev2 | [ddbj_submission_dev2.json](src/templates/ddbj_submission_dev2.json)  | dev1と同じ。Definitions 使用せず |
 
 ## schema 取得
 ```
