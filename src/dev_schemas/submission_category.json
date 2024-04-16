@@ -9,35 +9,6 @@
             },
             "uniqueItems": true
         },
-        "wgs_keyword": {
-            "title": "Keyword (WGS)",
-            "type": "array",
-            "items": {
-                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
-            },
-            "maxItems": 2,
-            "uniqueItems": true
-        },
-        "keyword_env": {
-            "title": "Keyword (ENV)",
-            "type": "array",
-            "items": {
-                "enum": ["ENV", "MAG", "Metagenome Assembled Genome"]
-            },
-            "uniqueItems": true
-        },
-        "tsa_keyword": {
-            "title": "Keyword",
-            "type": "array",
-            "items": {
-                "enum": ["TSA", "Transcriptome Shotgun Assembly"]
-            },
-            "minItems": 1,
-            "maxItems": 2,
-            "uniqueItems": true,
-            "default": ["TSA", "Transcriptome Shotgun Assembly"],
-            "allOf": [{"contains": {"const": "TSA"}}, {"contains": {"const": "Transcriptome Shotgun Assembly"}}]
-        },
         "division": {
             "title": "Data Division",
             "type": "string",
