@@ -1,0 +1,22 @@
+# ベースイメージ
+FROM node:latest
+
+# 作業ディレクトリの設定
+WORKDIR /app/react_jsonschema
+ENV BUILD_NUM=1
+
+# 依存関係ファイルをコピー
+# COPY ./react_jsonschema/package.json /app/react_jsonschema/package.json
+# COPY ./react_jsonschema/package-lock.json /app/react_jsonschema/package-lock.json
+
+# 依存関係のインストール
+# RUN npm install
+
+# アプリケーションファイルをコピー
+# COPY ./ /app/
+
+# アプリケーションのビルド
+# RUN npm run build
+
+# 開発サーバーの起動
+CMD ["npm", "start"]

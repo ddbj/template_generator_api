@@ -1,0 +1,4 @@
+"author": {
+    "title": "Author",
+    {% include "child.json" %}
+}

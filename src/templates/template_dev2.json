@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DDBJ JSON Schema Example",
+    "description": "Example of json schema for DDBJ submission template",
+    "type": "object",
+    "properties": {
+        "submission_category": {
+            
+            {% include 'submission_category.tmpl' %}
+        },
+        "bioproject": {
+            "title": "BioProject ID",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$"
+        },
+        "biosample": {
+            "title": "BioSample ID",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "sra": {
+            "title": "SRA Accession",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "submitter": {
+            "title": "Submitter",
+            {% include 'ab_name.tmpl' %}
+        },
+        "consrtm": {
+            "title": "Consortium",
+            "type": "string"
+        },
+        "contact": {
+            "title": "Contact Person",
+            "type": "string",
+            "default": "DDBJ"
+        },
+        "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+        },
+        "references": {
+            "title": "References",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "reference": {% include "reference.json" %}
+                }
+            },
+            "minItems": 1
+        },
+        "comment": {
+            "type": "array",
+            "title": "Comment",
+            "items": {
+                "type": "string"
+            }
+        },
+        "comment_test": {
+            "title": "COMMENT_TEST",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "com": {
+                        "type": "string"
+                    },
+                    "com2": {"type": "string"}
+                }
+            }
+        }
+    }
+}
+  

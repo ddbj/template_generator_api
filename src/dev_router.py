@@ -14,6 +14,8 @@ json_schema_files = {
     "submission_category": "src/dev_schemas/submission_category.json",
     "reference": "src/dev_schemas/reference_schema.json",
     "multi_reference": "src/dev_schemas/reference_schema_multi.json",
+    "test": "src/dev_schemas/test.json",
+    "ddbj_dev2": "src/templates/ddbj_submission_dev2.json",
 }
 
 class Schema(str, Enum):
@@ -23,6 +25,8 @@ class Schema(str, Enum):
     CATEGORY = 'submission_category'
     REFERENCE = 'reference'
     REFERENC2 = "multi_reference"
+    TEST = "test"
+    DEV2 = "ddbj_dev2"
 
 class SchemaType(BaseModel):
     name: Schema = Schema.MINIMUM
@@ -30,6 +34,11 @@ class SchemaType(BaseModel):
 class SchemaValidate(BaseModel):
     name: str = "minimum"
     data: dict
+
+@router.get("/dev/get_schema_types")
+async def get_schema_types():
+    print(SchemaType.model_json_schema())
+    return SchemaType.model_json_schema()
 
 @router.post("/dev/schema", tags=["dev"])
 async def get_schema(schema_type: SchemaType):

@@ -128,3 +128,16 @@ React Json Schema Form でフォームが生成できることを確認。
 - バリデーションには単独の値の入力規則チェックだけではなく、複数の入力フィールドにまたがるチェックも含まれる予定 (共起、排他チェックなど)
 - `strict` オプションを実装予定。デフォルトでは `False` に設定し、必須項目が入力されていなくても許容とする。有効にした場合には必須項目に値が入力されていない場合にはエラーとする。
 
+
+
+## 開発用 client app
+docker-compose-dev.yml で起動すると React JSONschema を使ってフォームの自動生成ができる。  
+http://localhost:3000
+
+```
+# module install
+docker-compose -f docker-compose-dev.yml run --rm client npm install 
+
+# 起動
+docker-compose -f docker-compose-dev.yml up
+```

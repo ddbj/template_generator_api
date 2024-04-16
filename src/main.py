@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from .metadata import Metadata
 from .schemas import MetadataRequest, MetadataResponse
+from starlette.middleware.cors import CORSMiddleware
 
 from .dev_router import router as dev_router
 app = FastAPI()
@@ -8,6 +9,14 @@ app.include_router(dev_router)
 
 VERSION = "0.2.0"
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,   # 追記により追加
+    allow_methods=["*"],      # 追記により追加
+    allow_headers=["*"]       # 追記により追加
+)
 
 @app.get("/")
 async def get_version():

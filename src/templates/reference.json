@@ -1,0 +1,109 @@
+{
+    "title": "Reference",
+    "properties": {
+        "title": {
+            "title": "Reference Title",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "example": "Mouse Genome Sequencing",
+            "help": "Title of the paper associated to the submission."
+        },
+        "author": {
+            "title": "Author",
+            {% include 'ab_name.tmpl' %}
+        },
+        "status": {
+            "title": "Status",
+            "type": "string",
+            "enum": ["Unpublished", "In press", "Published"],
+            "example": "WGS",
+            "help": "Reference status",
+            "default": "Unpublished"
+        },
+        "year": {
+            "title": "Year",
+            "type": "integer",
+            "minimum": 1980,
+            "maximum": 2100,
+            "example": "2024",
+            "help": "Reference year"
+        }
+    },
+    "dependencies": {
+        "status": {
+            "oneOf": [
+                {
+                    "properties": {
+                        "status": {
+                            "enum": ["Unpublished"]
+                        },
+                        "year": {
+                            "type": "integer",
+                            "minimum": 1980,
+                            "maximum": 2100
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "status": {
+                            "enum": ["In press"]
+                        },
+                        "journal": {
+                            "title": "Journal",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                            "example": "Nature",
+                            "help": "Journal name"
+                        }
+                    },
+                    "required": ["journal"]
+                },
+                {
+                    "properties": {
+                        "status": {
+                            "enum": [
+                                "Published"
+                            ]
+                        },
+                        "year": {
+                            "type": "integer",
+                            "title": "Year",
+                            "minimum": 1980,
+                            "maximum": 2100
+                        },
+                        "journal": {
+                            "title": "Journal",
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                            "example": "Nature",
+                            "help": "Journal name"
+                        },
+                        "volume": {
+                            "type": "string",
+                            "title": "Volume",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "start_page": {
+                            "type": "string",
+                            "title": "Start Page",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "end_page": {
+                            "type": "string",
+                            "title": "End Page",
+                            "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                        },
+                        "pubmed_id": {
+                            "type": "string",
+                            "title": "PubMed ID",
+                            "pattern": "^[0-9]*$"
+                        }
+                    },
+                    "required": ["journal", "volume", "start_page"]
+                }
+            ]
+        }
+    },
+    "required": ["title", "year", "author"]                
+}

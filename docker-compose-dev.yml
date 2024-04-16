@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/code
+    working_dir: /code/
+    command: uvicorn src.main:app --host 0.0.0.0 --reload
+    # environment:
+    #   - UVICORN_HOST=0.0.0.0
+    #   - UVICORN_PORT=8000
+    #   - UVICORN_RELOAD=True
+  
+  client:
+    build:
+      context: ./dev_client
+      dockerfile: Dockerfile_dev
+    volumes:
+      - ./dev_client:/app
+    working_dir: /app/react_jsonschema
+    ports:
+      - "3000:3000"
+    environment:
+      - TEST=development
+    depends_on:
+      - api
+    command: npm start
