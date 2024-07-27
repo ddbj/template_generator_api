@@ -468,20 +468,6 @@
                     "ST_COMMENT": {
                         "$ref": "#/definitions/F_ST_COMMENT_GENOME"
                     }
-                },
-                "if": {
-                    "properties": {
-                        "DATATYPE": { "const": "WGS"}
-                    },
-                    "required": ["datatype"]
-                },
-                "then": {
-                    "properties": {
-                        "keyword": {
-                            "minItems": 5, "maxItems": 5,
-                            "contains": {"const": "WGS"}
-                        }
-                    }
                 }
             }
         },
@@ -499,7 +485,7 @@
                         "properties": {
                             "type": {
                                 "$ref": "#/definitions/q_datatype",
-                                "enum": ["WGS", "TEST"],
+                                "enum": ["WGS"],
                                 "default": "WGS",
                                 "const": "WGS"
                             }
@@ -524,7 +510,7 @@
                                 "items": {
                                     "enum": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
                                 },
-                                "default": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS"],
+                                "default": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT"],
                                 "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}, {"contains": {"const": "WGS"}}],
                                 "minItems": 5, "maxItems": 5
                             }
@@ -535,20 +521,6 @@
                     },
                     "ST_COMMENT": {
                         "$ref": "#/definitions/F_ST_COMMENT_GENOME"
-                    }
-                },
-                "if": {
-                    "properties": {
-                        "DATATYPE": { "const": "WGS"}
-                    },
-                    "required": ["datatype"]
-                },
-                "then": {
-                    "properties": {
-                        "keyword": {
-                            "minItems": 5, "maxItems": 5,
-                            "contains": {"const": "WGS"}
-                        }
                     }
                 }
             }

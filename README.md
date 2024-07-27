@@ -17,6 +17,8 @@ API Docs: http://localhost:8000/docs
 
 | 名前 | ファイル名 | 説明 |
 | ---- | ---- | ---- |
+| MSS | [MSS_COMMON_template.json](src/dev_schemas/MSS_COMMON_template.json) | 暫定版 | 
+| ---- | ---- | ---- |
 | minimum | [example_schema_minimum.json](src/dev_schemas/example_schema_minimum.json) | テスト用最小構成 | 
 | submission_category | [submission_category.json](src/dev_schemas/submission_category.json)  | 登録カテゴリごとに条件分岐 |
 | reference | [reference_schema.json](src/dev_schemas/reference_schema.json)  | 参考文献用 |
@@ -31,7 +33,7 @@ curl -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "name": "minimum"
+  "name": "MSS"
 }'
 ```
 `name`の部分は `minimum`, `submission_category`, `reference`, `multi_reference`, `ddbj_dev1` から指定。
@@ -44,7 +46,7 @@ curl -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "name": "minimum",
+  "name": "MSS",
   "data": { "keyword": [ "WGS", "STANDARD_DRAFT" ], "biosample": [], "data_type": "WGS", "contact": "John" }
 }'
 ```
@@ -56,7 +58,7 @@ React Json Schema Form でフォームが生成できることを確認。
 
 
 ---
-# 以下は、独自仕様のAPI版の情報
+# 以下は、独自仕様のAPI版の情報 (deprecated)
 
 ## 基本機能
 ### メタデータ入力欄の定義情報およびMSS登録ファイルのテンプレートを返す
