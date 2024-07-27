@@ -50,14 +50,14 @@
         "q_bioproject": {
             "title": "BioProject ID",
             "type": "string",
-            "pattern": "^[A-Za-z0-9]*$"
+            "pattern": "^PRJ[A-Z]{1,2}\\d{4,8}$"
         },
         "q_biosample": {
             "title": "BioSample ID",
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^[A-Za-z0-9]*$"
+                "pattern": "^SAM[A-Z]{1,2}\\d{4,8}$"
             }
         },
         "q_sra": {
@@ -65,7 +65,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^[A-Za-z0-9]*$"
+                "pattern": "^[DES]RR\\d{5,8}$"
             }
         },
         "F_DBLINK": {
