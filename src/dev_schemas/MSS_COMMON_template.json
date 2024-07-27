@@ -1,0 +1,645 @@
+{
+    "title": "MSS Common Template",
+    "definitions": {
+        "q_datatype": {
+            "title": "Data Type",
+            "type": "string",
+            "enum": ["WGS", "TLS", "TPA", "TPA-WGS"]
+        },
+        "F_DATATYPE": {
+            "title": "Data Type",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/q_datatype"
+                }
+            }
+        },
+        "q_division": {
+            "title": "Data Division",
+            "type": "string",
+            "enum": ["CON", "ENV", "EST", "GSS", "HTC", "HTG", "STS", "SYN", "TSA"]
+        },
+        "F_DIVISION": {
+            "title": "Data Division",
+            "type": "object",
+            "properties": {
+                "division": {
+                    "$ref": "#/definitions/q_division"
+                }
+            }
+        },
+        "q_keyword": {
+            "title": "Keyword",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "ENV", "MAG", "Metagenome Assembled Genome"]
+            },
+            "uniqueItems": true
+        },
+        "F_KEYWORD": {
+            "title": "Keyword",
+            "type": "object",
+            "properties": {
+                "keyword": {
+                    "$ref": "#/definitions/q_keyword"
+                }
+            }
+        },
+        "q_bioproject": {
+            "title": "BioProject ID",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$"
+        },
+        "q_biosample": {
+            "title": "BioSample ID",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "q_sra": {
+            "title": "SRA Accession",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]*$"
+            }
+        },
+        "F_DBLINK": {
+            "title": "DB Link",
+            "type": "object",
+            "properties": {
+                "project": {"$ref": "#/definitions/q_bioproject"},
+                "biosample": {"$ref": "#/definitions/q_biosample"},
+                "sequence read archive": {"$ref": "#/definitions/q_sra"}
+            }
+        },
+        "F_DBLINK_WO_SRA": {
+            "title": "DB Link",
+            "type": "object",
+            "properties": {
+                "project": {"$ref": "#/definitions/q_bioproject"},
+                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},
+                "sequence read archive": {"$ref": "#/definitions/q_sra"}
+            },
+            "required": ["project", "biosample"]
+        },
+        "F_DBLINK_WITH_SRA": {
+            "title": "DB Link",
+            "type": "object",
+            "properties": {
+                "project": {"$ref": "#/definitions/q_bioproject"},
+                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},            
+                "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 1}
+            },
+            "required": ["project", "biosample", "sequence read archive"]
+        },
+        "q_ab_name": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9',\\.\\-]*$"
+            },
+            "default": [""],
+            "example": [
+                "Robertson,G.R.",
+                "Mishima,H."
+            ],
+            "help": "hoge fuga, etc."
+        },
+        "F_SUBMITTER": {
+            "type": "object",
+            "properties": {
+                "ab_name": {
+                    "title": "Submitter",
+                    "$ref": "#/definitions/q_ab_name"
+                },
+                "consrtm": {
+                    "title": "Consortium",
+                    "type": "string"
+                },
+                "contact": {
+                    "title": "Contact Person",
+                    "type": "string",
+                    "default": "DDBJ"
+                },
+                "email": {
+                    "title": "Email",
+                    "type": "string",
+                    "format": "email"
+                }
+            },
+            "$ref": "#/definitions/rule_constrm"
+        },
+        "rule_constrm": {
+            "if": {
+                "properties": {
+                    "consrtm": {"minLength": 1}
+                },
+                "required": ["consrtm"]
+            },
+            "then": {
+                "properties": {
+                    "ab_name": {"minItems": 0}                }
+            },
+            "else": {
+                "properties": {
+                    "ab_name": {"minItems": 1}
+                }
+            }            
+        },
+        "F_REFERENCE": {
+            "title": "Reference",
+            "properties": {
+                "title": {
+                    "title": "Reference Title",
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9 ]*$",
+                    "example": "Mouse Genome Sequencing",
+                    "help": "Title of the paper associated to the submission."
+                },
+                "ab_name": {
+                    "title": "Author",
+                    "$ref": "#/definitions/q_ab_name"
+                },
+                "consrtm": {
+                    "title": "Consortium",
+                    "type": "string"
+                },
+                "status": {
+                    "title": "Status",
+                    "type": "string",
+                    "enum": ["Unpublished", "In press", "Published"],
+                    "example": "WGS",
+                    "help": "Reference status",
+                    "default": "Unpublished"
+                },
+                "year": {
+                    "title": "Year",
+                    "type": "integer",
+                    "minimum": 1980,
+                    "maximum": 2100,
+                    "example": "2024",
+                    "default": 2024,
+                    "help": "Reference year"
+                }
+            },
+            "dependencies": {
+                "status": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": ["Unpublished"]
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": ["In press"]
+                                },
+                                "journal": {
+                                    "title": "Journal",
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                    "example": "Nature",
+                                    "help": "Journal name"
+                                }
+                            },
+                            "required": ["journal"]
+                        },
+                        {
+                            "properties": {
+                                "status": {
+                                    "enum": [
+                                        "Published"
+                                    ]
+                                },
+                                "journal": {
+                                    "title": "Journal",
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                    "example": "Nature",
+                                    "help": "Journal name"
+                                },
+                                "volume": {
+                                    "type": "string",
+                                    "title": "Volume",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "start_page": {
+                                    "type": "string",
+                                    "title": "Start Page",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "end_page": {
+                                    "type": "string",
+                                    "title": "End Page",
+                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                },
+                                "pubmed_id": {
+                                    "type": "string",
+                                    "title": "PubMed ID",
+                                    "pattern": "^[0-9]*$"
+                                }
+                            },
+                            "required": ["journal", "volume", "start_page"]
+                        }
+                    ]
+                }
+            },
+            "$ref": "#/definitions/rule_constrm",
+            "required": ["title", "year", "ab_name"]                
+        },
+        "F_DATE": {
+            "type": "object",
+            "title": "Hold Date",
+            "properties": {
+                "hold_date": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$",
+                    "title": "Hold Date",
+                    "example": "20260331",
+                    "help": "Hold date of the submission"
+                }
+            }
+        },
+        "F_COMMENT": {
+            "type": "object",
+            "title": "Comment",
+            "properties": {
+                "line": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^.*$"
+                    },
+                    "title": "Line"
+                }
+            }
+        },
+        "F_ST_COMMENT_GENOME": {
+            "title": "Structured COMMENT for Genome Assembly",
+            "type": "object",
+            "properties": {
+                "tagset_id": {
+                    "type": "string",
+                    "title": "Tagset ID",
+                    "enum": ["Genome-Assembly-Data"],
+                    "default": "Genome-Assembly-Data",
+                    "contain": "Genome-Assembly-Data"
+                },
+                "Sequencing Technology": {
+                    "type": "string",
+                    "title": "Sequencing Technology"
+                },
+                "Genome Coverage": {
+                    "type": "string",
+                    "title": "Genome Coverage"
+                },
+                "Assembly Method": {
+                    "type": "string",
+                    "title": "Assembly Method"
+                },
+                "Assembly Name": {
+                    "type": "string",
+                    "title": "Assembly Name"
+                }
+            },
+            "required": ["tagset_id", "Sequencing Technology", "Genome Coverage", "Assembly Method"]
+        },
+        "F_ST_COMMENT_TRANSCRIPT": {
+            "title": "Structured COMMENT for Transcript Assembly",
+            "type": "object",
+            "properties": {
+                "tagset_id": {
+                    "type": "string",
+                    "title": "Tagset ID",
+                    "enum": ["Assembly-Data"],
+                    "default": "Assembly-Data",
+                    "contain": "Assembly-Data"
+                },
+                "Sequencing Technology": {
+                    "type": "string",
+                    "title": "Sequencing Technology"
+                },
+                "Coverage": {
+                    "type": "string",
+                    "title": "Coverage"
+                },
+                "Assembly Method": {
+                    "type": "string",
+                    "title": "Assembly Method"
+                },
+                "Assembly Name": {
+                    "type": "string",
+                    "title": "Assembly Name"
+                }
+            },
+            "required": ["tagset_id", "Sequencing Technology", "Assembly Method"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "_submission_category": {
+            "title": "Data Submission Category",
+            "type": "string",
+            "enum": [
+                "GNM", "WGS", "MAG", "MAG-WGS", "TSA", "MISC"
+            ],
+            "enumNames": [
+                "Complete Genome", "WGS (Draft genome)", "MAG (Metagenome-Assembled genome)", "MAG-WGS (Draft Metagenome-Assembled genome)", "Transcriptome Shotgun Assembly", "Miscellaneous"
+            ]
+        },
+        "DATATYPE": {},
+        "DIVISION": {},
+        "KEYWORD": {},
+        "DBLINK": {},
+        "SUBMITTER": {"$ref": "#/definitions/F_SUBMITTER"},
+        "REFERENCE": {"$ref": "#/definitions/F_REFERENCE"},
+        "DATE": {"$ref": "#/definitions/F_DATE"},
+        "COMMENT": {"$ref": "#/definitions/F_COMMENT"},
+        "ST_COMMENT": {}
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "GNM"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK_WO_SRA"
+                    },
+                    "ST_COMMENT": {
+                        "$ref": "#/definitions/F_ST_COMMENT_GENOME"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "WGS"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DATATYPE": {
+                        "$ref": "#/definitions/F_DATATYPE",
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/q_datatype",
+                                "enum": ["WGS"],
+                                "default": "WGS",
+                                "contains": {"const": "WGS"}
+                            }
+                        }
+                    },
+                    "KEYWORD": {
+                        "$ref": "#/definitions/F_KEYWORD",
+                        "properties": {
+                            "keyword": {
+                                "$ref": "#/definitions/q_keyword",
+                                "items": {
+                                    "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                                },
+                                "default": ["WGS", "STANDARD_DRAFT"],
+                                "contains": {"const": "WGS"}, 
+                                "minItems": 2, "maxItems": 2
+                            }
+                        }
+                    },
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK_WO_SRA"
+                    },
+                    "ST_COMMENT": {
+                        "$ref": "#/definitions/F_ST_COMMENT_GENOME"
+                    }
+                },
+                "required": ["KEYWORD", "DATATYPE"]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "MAG"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DIVISION": {
+                        "$ref": "#/definitions/F_DIVISION",
+                        "properties": {
+                            "division": {
+                                "$ref": "#/definitions/q_division",
+                                "enum": ["ENV"],
+                                "default": "ENV",
+                                "const": "ENV"
+                            }
+                        }
+                    },
+                    "KEYWORD": {
+                        "$ref": "#/definitions/F_KEYWORD",
+                        "properties": {
+                            "keyword": {
+                                "$ref": "#/definitions/q_keyword",
+                                "items": {
+                                    "enum": ["ENV", "MAG", "Metagenome Assembled Genome"]
+                                },
+                                "default": ["ENV", "MAG", "Metagenome Assembled Genome"],
+                                "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}],
+                                "minItems": 3, "maxItems": 3
+                            }
+                        }
+                    },
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK_WITH_SRA"
+                    },
+                    "ST_COMMENT": {
+                        "$ref": "#/definitions/F_ST_COMMENT_GENOME"
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "DATATYPE": { "const": "WGS"}
+                    },
+                    "required": ["datatype"]
+                },
+                "then": {
+                    "properties": {
+                        "keyword": {
+                            "minItems": 5, "maxItems": 5,
+                            "contains": {"const": "WGS"}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "MAG-WGS"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DATATYPE": {
+                        "$ref": "#/definitions/F_DATATYPE",
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/q_datatype",
+                                "enum": ["WGS", "TEST"],
+                                "default": "WGS",
+                                "const": "WGS"
+                            }
+                        }
+                    },
+                    "DIVISION": {
+                        "$ref": "#/definitions/F_DIVISION",
+                        "properties": {
+                            "division": {
+                                "$ref": "#/definitions/q_division",
+                                "enum": ["ENV"],
+                                "default": "ENV",
+                                "const": "ENV"
+                            }
+                        }
+                    },
+                    "KEYWORD": {
+                        "$ref": "#/definitions/F_KEYWORD",
+                        "properties": {
+                            "keyword": {
+                                "$ref": "#/definitions/q_keyword",
+                                "items": {
+                                    "enum": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                                },
+                                "default": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS"],
+                                "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}, {"contains": {"const": "WGS"}}],
+                                "minItems": 5, "maxItems": 5
+                            }
+                        }
+                    },
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK_WITH_SRA"
+                    },
+                    "ST_COMMENT": {
+                        "$ref": "#/definitions/F_ST_COMMENT_GENOME"
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "DATATYPE": { "const": "WGS"}
+                    },
+                    "required": ["datatype"]
+                },
+                "then": {
+                    "properties": {
+                        "keyword": {
+                            "minItems": 5, "maxItems": 5,
+                            "contains": {"const": "WGS"}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "TSA"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DIVISION": {
+                        "$ref": "#/definitions/F_DIVISION",
+                        "properties": {
+                            "division": {
+                                "$ref": "#/definitions/q_division",
+                                "enum": ["TSA"],
+                                "default": "TSA",
+                                "contains": {"const": "TSA"}
+                            }
+                        }
+                    },
+                    "KEYWORD": {
+                        "$ref": "#/definitions/F_KEYWORD",
+                        "properties": {
+                            "keyword": {
+                                "$ref": "#/definitions/q_keyword",
+                                "items": {
+                                    "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+                                },
+                                "default": ["TSA", "Transcriptome Shotgun Assembly"],
+                                "allOf": [{"contains": {"const": "TSA"}}, {"contains": {"const": "Transcriptome Shotgun Assembly"}}],
+                                "minItems": 2, "maxItems": 2
+                            }
+                        }
+                    },
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK_WITH_SRA"
+                    },
+                    "ST_COMMENT": {
+                        "$ref": "#/definitions/F_ST_COMMENT_TRANSCRIPT"
+                    }
+                },
+                "required": ["KEYWORD", "DIVISION"]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "MISC"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "DATATYPE": {
+                        "$ref": "#/definitions/F_DATATYPE"
+                    },
+                    "DIVISION": {
+                        "$ref": "#/definitions/F_DIVISION"
+                    },
+                    "KEYWORD": {
+                        "$ref": "#/definitions/F_KEYWORD"
+                    },
+                    "DBLINK": {
+                        "$ref": "#/definitions/F_DBLINK"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "_submission_category": {"const": "MISC"}
+                },
+                "required": ["_submission_category"]
+            },
+            "then": {
+                "properties": {
+                    "comment": {
+                        "type": "array",
+                        "title": "Comment TEST",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
+  

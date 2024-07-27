@@ -23,7 +23,6 @@
         },
         "ab_name": {
             "type": "array",
-            "minItems": 1,
             "items": {
                 "type": "string",
                 "pattern": "^[A-Za-z0-9',\\.\\-]*$"
@@ -32,7 +31,8 @@
                 "Robertson,G.R.",
                 "Mishima,H."
             ],
-            "help": "Keyword for the data division. Optional. For example, WGS, TSA, GSS, EST, etc."
+            "help": "Keyword for the data division. Optional. For example, WGS, TSA, GSS, EST, etc.",
+            "minItems": 1
         },
         "reference": {
             "title": "Reference",

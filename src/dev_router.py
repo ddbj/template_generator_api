@@ -9,6 +9,8 @@ router = APIRouter()
 # To add Json schema file, update this dictionary and Schema class
 json_schema_files = {
 #    "dev": "dev_schemas/test_schema.json",
+    "MSS": "src/dev_schemas/MSS_COMMON_template.json",
+    "ddbj_dev3": "src/dev_schemas/ddbj_submission_dev3.json",
     "ddbj_dev1": "src/dev_schemas/ddbj_submission_dev1.json",
     "minimum": "src/dev_schemas/example_schema_minimum.json",
     "submission_category": "src/dev_schemas/submission_category.json",
@@ -20,6 +22,8 @@ json_schema_files = {
 
 class Schema(str, Enum):
     # DEV = 'dev'
+    MSS = 'MSS'
+    DEV3 = 'ddbj_dev3'
     DEV1 = 'ddbj_dev1'
     MINIMUM = 'minimum'
     CATEGORY = 'submission_category'
@@ -29,7 +33,7 @@ class Schema(str, Enum):
     DEV2 = "ddbj_dev2"
 
 class SchemaType(BaseModel):
-    name: Schema = Schema.MINIMUM
+    name: Schema = Schema.MSS
 
 class SchemaValidate(BaseModel):
     name: str = "minimum"
