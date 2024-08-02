@@ -50,14 +50,15 @@
         "q_bioproject": {
             "title": "BioProject ID",
             "type": "string",
-            "pattern": "^PRJ[A-Z]{1,2}\\d{4,8}$"
+            "pattern": ".*|^PRJ[A-Z]{1,2}\\d{4,8}$",
+            "default": ""
         },
         "q_biosample": {
             "title": "BioSample ID",
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^SAM[A-Z]{1,2}\\d{4,8}$"
+                "pattern": "^.*$|^SAM[A-Z]{1,2}\\d{4,8}$"
             }
         },
         "q_sra": {
@@ -65,7 +66,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^[DES]RR\\d{5,8}$"
+                "pattern": "^.*$|^[DES]RR\\d{5,8}$"
             }
         },
         "F_DBLINK": {
@@ -75,7 +76,8 @@
                 "project": {"$ref": "#/definitions/q_bioproject"},
                 "biosample": {"$ref": "#/definitions/q_biosample"},
                 "sequence read archive": {"$ref": "#/definitions/q_sra"}
-            }
+            },
+            "default": {"project": "", "biosample": [], "sequence read archive": []}
         },
         "F_DBLINK_WO_SRA": {
             "title": "DB Link",
@@ -85,6 +87,7 @@
                 "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},
                 "sequence read archive": {"$ref": "#/definitions/q_sra"}
             },
+            "default": {"project": "", "biosample": [""], "sequence read archive": []},
             "required": ["project", "biosample"]
         },
         "F_DBLINK_WITH_SRA": {
@@ -95,6 +98,7 @@
                 "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},            
                 "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 1}
             },
+            "default": {"project": "", "biosample": [""], "sequence read archive": [""]},
             "required": ["project", "biosample", "sequence read archive"]
         },
         "q_ab_name": {
@@ -103,7 +107,6 @@
                 "type": "string",
                 "pattern": "^[A-Za-z0-9',\\.\\-]*$"
             },
-            "default": [""],
             "example": [
                 "Robertson,G.R.",
                 "Mishima,H."
@@ -123,16 +126,61 @@
                 },
                 "contact": {
                     "title": "Contact Person",
-                    "type": "string",
-                    "default": "DDBJ"
+                    "type": "string"
                 },
                 "email": {
                     "title": "Email",
                     "type": "string",
                     "format": "email"
+                },
+                "phone": {
+                    "title": "Phone",
+                    "type": "string"
+                },
+                "phext": {
+                    "title": "Email",
+                    "type": "string"
+                },
+                "fax": {
+                    "title": "Fax",
+                    "type": "string"
+                },
+                "institute": {
+                    "title": "Institute",
+                    "type": "string"
+                },
+                "department": {
+                    "title": "Department",
+                    "type": "string"
+                },
+                "country": {
+                    "title": "Country",
+                    "type": "string"
+                },
+                "state": {
+                    "title": "State/Province",
+                    "type": "string"
+                },
+                "city": {
+                    "title": "City",
+                    "type": "string"
+                },
+                "street": {
+                    "title": "Street",
+                    "type": "string"
+                },
+                "zip": {
+                    "title": "ZIP code",
+                    "type": "string"
                 }
             },
-            "$ref": "#/definitions/rule_constrm"
+            "$ref": "#/definitions/rule_constrm",
+            "default": {
+                "ab_name": ["", "", ""],
+                "contact": "", 
+                "email": "", "phone": "",
+                "institute": "", "country": "", "city": "", "street": "", "zip": ""
+            }    
         },
         "rule_constrm": {
             "if": {
@@ -153,107 +201,120 @@
         },
         "F_REFERENCE": {
             "title": "Reference",
-            "properties": {
-                "title": {
-                    "title": "Reference Title",
-                    "type": "string",
-                    "pattern": "^[A-Za-z0-9 ]*$",
-                    "example": "Mouse Genome Sequencing",
-                    "help": "Title of the paper associated to the submission."
+            "type":"array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Reference Title",
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9 ]*$",
+                        "example": "Mouse Genome Sequencing",
+                        "help": "Title of the paper associated to the submission."
+                    },
+                    "ab_name": {
+                        "title": "Author",
+                        "$ref": "#/definitions/q_ab_name"
+                    },
+                    "consrtm": {
+                        "title": "Consortium",
+                        "type": "string"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "string",
+                        "enum": ["Unpublished", "In press", "Published"],
+                        "example": "WGS",
+                        "help": "Reference status",
+                        "default": "Unpublished"
+                    },
+                    "year": {
+                        "title": "Year",
+                        "type": "integer",
+                        "minimum": 1980,
+                        "maximum": 2100,
+                        "example": "2024",
+                        "default": 2024,
+                        "help": "Reference year"
+                    }
                 },
-                "ab_name": {
-                    "title": "Author",
-                    "$ref": "#/definitions/q_ab_name"
-                },
-                "consrtm": {
-                    "title": "Consortium",
-                    "type": "string"
-                },
-                "status": {
-                    "title": "Status",
-                    "type": "string",
-                    "enum": ["Unpublished", "In press", "Published"],
-                    "example": "WGS",
-                    "help": "Reference status",
-                    "default": "Unpublished"
-                },
-                "year": {
-                    "title": "Year",
-                    "type": "integer",
-                    "minimum": 1980,
-                    "maximum": 2100,
-                    "example": "2024",
-                    "default": 2024,
-                    "help": "Reference year"
-                }
-            },
-            "dependencies": {
-                "status": {
-                    "oneOf": [
-                        {
-                            "properties": {
-                                "status": {
-                                    "enum": ["Unpublished"]
+                "dependencies": {
+                    "status": {
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "status": {
+                                        "enum": ["Unpublished"]
+                                    }
                                 }
+                            },
+                            {
+                                "properties": {
+                                    "status": {
+                                        "enum": ["In press"]
+                                    },
+                                    "journal": {
+                                        "title": "Journal",
+                                        "type": "string",
+                                        "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                        "example": "Nature",
+                                        "help": "Journal name"
+                                    }
+                                },
+                                "required": ["journal"]
+                            },
+                            {
+                                "properties": {
+                                    "status": {
+                                        "enum": [
+                                            "Published"
+                                        ]
+                                    },
+                                    "journal": {
+                                        "title": "Journal",
+                                        "type": "string",
+                                        "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
+                                        "example": "Nature",
+                                        "help": "Journal name"
+                                    },
+                                    "volume": {
+                                        "type": "string",
+                                        "title": "Volume",
+                                        "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                    },
+                                    "start_page": {
+                                        "type": "string",
+                                        "title": "Start Page",
+                                        "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                    },
+                                    "end_page": {
+                                        "type": "string",
+                                        "title": "End Page",
+                                        "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
+                                    },
+                                    "pubmed_id": {
+                                        "type": "string",
+                                        "title": "PubMed ID",
+                                        "pattern": "^[0-9]*$"
+                                    }
+                                },
+                                "required": ["journal", "volume", "start_page"]
                             }
-                        },
-                        {
-                            "properties": {
-                                "status": {
-                                    "enum": ["In press"]
-                                },
-                                "journal": {
-                                    "title": "Journal",
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
-                                    "example": "Nature",
-                                    "help": "Journal name"
-                                }
-                            },
-                            "required": ["journal"]
-                        },
-                        {
-                            "properties": {
-                                "status": {
-                                    "enum": [
-                                        "Published"
-                                    ]
-                                },
-                                "journal": {
-                                    "title": "Journal",
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$",
-                                    "example": "Nature",
-                                    "help": "Journal name"
-                                },
-                                "volume": {
-                                    "type": "string",
-                                    "title": "Volume",
-                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
-                                },
-                                "start_page": {
-                                    "type": "string",
-                                    "title": "Start Page",
-                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
-                                },
-                                "end_page": {
-                                    "type": "string",
-                                    "title": "End Page",
-                                    "pattern": "^[A-Za-z0-9',\\.\\- ]*$"
-                                },
-                                "pubmed_id": {
-                                    "type": "string",
-                                    "title": "PubMed ID",
-                                    "pattern": "^[0-9]*$"
-                                }
-                            },
-                            "required": ["journal", "volume", "start_page"]
-                        }
-                    ]
-                }
+                        ]
+                    }
+                },
+                "$ref": "#/definitions/rule_constrm",
+                "required": ["title", "year", "ab_name"]                
             },
-            "$ref": "#/definitions/rule_constrm",
-            "required": ["title", "year", "ab_name"]                
+            "default": [
+                {
+                    "title": "",
+                    "ab_name": ["", "", ""],
+                    "status": "Unpublished",
+                    "year": 2024
+                }
+            ]
         },
         "F_DATE": {
             "type": "object",
@@ -269,17 +330,21 @@
             }
         },
         "F_COMMENT": {
-            "type": "object",
+            "type": "array",
             "title": "Comment",
-            "properties": {
-                "line": {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "pattern": "^.*$"
-                    },
-                    "title": "Line"
-                }
+            "items": {
+                "type": "object",
+                "properties": {
+                    "line": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^.*$"
+                        },
+                        "title": "Line",
+                        "minItems": 1
+                    }                    
+                }    
             }
         },
         "F_ST_COMMENT_GENOME": {
@@ -310,7 +375,8 @@
                     "title": "Assembly Name"
                 }
             },
-            "required": ["tagset_id", "Sequencing Technology", "Genome Coverage", "Assembly Method"]
+            "required": ["tagset_id", "Sequencing Technology", "Genome Coverage", "Assembly Method"],
+            "default": {"tagset_id": "Genome-Assembly-Data", "Sequencing Technology": "", "Genome Coverage": "", "Assembly Method": ""}
         },
         "F_ST_COMMENT_TRANSCRIPT": {
             "title": "Structured COMMENT for Transcript Assembly",
@@ -340,12 +406,13 @@
                     "title": "Assembly Name"
                 }
             },
-            "required": ["tagset_id", "Sequencing Technology", "Assembly Method"]
+            "required": ["tagset_id", "Sequencing Technology", "Assembly Method"],
+            "default": {"tagset_id": "Assembly-Data", "Sequencing Technology": "", "Coverage": "", "Assembly Method": ""}
         }
     },
     "type": "object",
     "properties": {
-        "_submission_category": {
+        "_trad_submission_category": {
             "title": "Data Submission Category",
             "type": "string",
             "enum": [
@@ -369,9 +436,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "GNM"}
+                    "_trad_submission_category": {"const": "GNM"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -387,9 +454,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "WGS"}
+                    "_trad_submission_category": {"const": "WGS"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -431,9 +498,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "MAG"}
+                    "_trad_submission_category": {"const": "MAG"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -474,9 +541,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "MAG-WGS"}
+                    "_trad_submission_category": {"const": "MAG-WGS"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -528,9 +595,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "TSA"}
+                    "_trad_submission_category": {"const": "TSA"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -572,9 +639,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "MISC"}
+                    "_trad_submission_category": {"const": "MISC"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -589,6 +656,17 @@
                     },
                     "DBLINK": {
                         "$ref": "#/definitions/F_DBLINK"
+                    },
+                    "ST_COMMENT": {
+                        "oneOf": [
+                            {   "title": "None", "type": "object", "properties": {} },
+                            {
+                                "$ref": "#/definitions/F_ST_COMMENT_GENOME"
+                            },
+                            {
+                                "$ref": "#/definitions/F_ST_COMMENT_TRANSCRIPT"
+                            }
+                        ]
                     }
                 }
             }
@@ -596,9 +674,9 @@
         {
             "if": {
                 "properties": {
-                    "_submission_category": {"const": "MISC"}
+                    "_trad_submission_category": {"const": "MISC"}
                 },
-                "required": ["_submission_category"]
+                "required": ["_trad_submission_category"]
             },
             "then": {
                 "properties": {
