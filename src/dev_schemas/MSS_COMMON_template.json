@@ -50,8 +50,7 @@
         "q_bioproject": {
             "title": "BioProject ID",
             "type": "string",
-            "pattern": ".*|^PRJ[A-Z]{1,2}\\d{4,8}$",
-            "default": ""
+            "pattern": ".*|^PRJ[A-Z]{1,2}\\d{4,8}$"
         },
         "q_biosample": {
             "title": "BioSample ID",
@@ -74,31 +73,28 @@
             "type": "object",
             "properties": {
                 "project": {"$ref": "#/definitions/q_bioproject"},
-                "biosample": {"$ref": "#/definitions/q_biosample"},
-                "sequence read archive": {"$ref": "#/definitions/q_sra"}
-            },
-            "default": {"project": "", "biosample": [], "sequence read archive": []}
+                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 0, "default": []},
+                "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 0, "default": []}
+            }
         },
         "F_DBLINK_WO_SRA": {
             "title": "DB Link",
             "type": "object",
             "properties": {
-                "project": {"$ref": "#/definitions/q_bioproject"},
-                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},
-                "sequence read archive": {"$ref": "#/definitions/q_sra"}
+                "project": {"$ref": "#/definitions/q_bioproject", "default": ""},
+                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1, "default": [""]},
+                "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 0, "default": []}
             },
-            "default": {"project": "", "biosample": [""], "sequence read archive": []},
             "required": ["project", "biosample"]
         },
         "F_DBLINK_WITH_SRA": {
             "title": "DB Link",
             "type": "object",
             "properties": {
-                "project": {"$ref": "#/definitions/q_bioproject"},
-                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1},            
-                "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 1}
+                "project": {"$ref": "#/definitions/q_bioproject", "default": ""},
+                "biosample": {"$ref": "#/definitions/q_biosample", "minItems": 1, "default": [""]},
+                "sequence read archive": {"$ref": "#/definitions/q_sra", "minItems": 1, "default": [""]}
             },
-            "default": {"project": "", "biosample": [""], "sequence read archive": [""]},
             "required": ["project", "biosample", "sequence read archive"]
         },
         "q_ab_name": {
@@ -118,7 +114,8 @@
             "properties": {
                 "ab_name": {
                     "title": "Submitter",
-                    "$ref": "#/definitions/q_ab_name"
+                    "$ref": "#/definitions/q_ab_name",
+                    "default": ["", "", ""]
                 },
                 "consrtm": {
                     "title": "Consortium",
@@ -126,16 +123,19 @@
                 },
                 "contact": {
                     "title": "Contact Person",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "email": {
                     "title": "Email",
                     "type": "string",
-                    "format": "email"
+                    "format": "email",
+                    "default": ""
                 },
                 "phone": {
                     "title": "Phone",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "phext": {
                     "title": "Email",
@@ -147,7 +147,8 @@
                 },
                 "institute": {
                     "title": "Institute",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "department": {
                     "title": "Department",
@@ -155,7 +156,8 @@
                 },
                 "country": {
                     "title": "Country",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "state": {
                     "title": "State/Province",
@@ -163,24 +165,21 @@
                 },
                 "city": {
                     "title": "City",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "street": {
                     "title": "Street",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 },
                 "zip": {
                     "title": "ZIP code",
-                    "type": "string"
+                    "type": "string",
+                    "default": ""
                 }
             },
-            "$ref": "#/definitions/rule_constrm",
-            "default": {
-                "ab_name": ["", "", ""],
-                "contact": "", 
-                "email": "", "phone": "",
-                "institute": "", "country": "", "city": "", "street": "", "zip": ""
-            }    
+            "$ref": "#/definitions/rule_constrm"    
         },
         "rule_constrm": {
             "if": {
@@ -215,7 +214,8 @@
                     },
                     "ab_name": {
                         "title": "Author",
-                        "$ref": "#/definitions/q_ab_name"
+                        "$ref": "#/definitions/q_ab_name",
+                        "default": ["", "", ""]
                     },
                     "consrtm": {
                         "title": "Consortium",
@@ -306,15 +306,7 @@
                 },
                 "$ref": "#/definitions/rule_constrm",
                 "required": ["title", "year", "ab_name"]                
-            },
-            "default": [
-                {
-                    "title": "",
-                    "ab_name": ["", "", ""],
-                    "status": "Unpublished",
-                    "year": 2024
-                }
-            ]
+            }
         },
         "F_DATE": {
             "type": "object",

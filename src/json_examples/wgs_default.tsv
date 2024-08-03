@@ -1,0 +1,26 @@
+COMMON	REFERENCE		title	title1
+			ab_name	
+			ab_name	
+			ab_name	
+			status	Unpublished
+			year	2024
+	SUBMITTER		contact	YT
+			phone	1234567890
+			ab_name	
+			ab_name	
+			ab_name	
+			email	
+			institute	
+			country	
+			city	
+			street	
+			zip	
+	DATATYPE		type	WGS
+	KEYWORD		keyword	WGS
+			keyword	STANDARD_DRAFT
+	DBLINK		project	
+			biosample	
+	ST_COMMENT		tagset_id	Genome-Assembly-Data
+			Sequencing Technology	
+			Genome Coverage	
+			Assembly Method	

@@ -1,0 +1,37 @@
+{
+    "KEYWORD": {
+        "keyword": []
+    },
+    "DBLINK": {
+        "biosample": [],
+        "sequence read archive": []
+    },
+    "SUBMITTER": {
+        "ab_name": [
+            "",
+            "",
+            ""
+        ],
+        "contact": "",
+        "email": "",
+        "phone": "",
+        "institute": "",
+        "country": "",
+        "city": "",
+        "street": "",
+        "zip": ""
+    },
+    "REFERENCE": [
+        {
+            "ab_name": [
+                "",
+                "",
+                ""
+            ],
+            "status": "Unpublished",
+            "year": 2024
+        }
+    ],
+    "COMMENT": [],
+    "_trad_submission_category": "MISC"
+}

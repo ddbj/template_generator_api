@@ -1,0 +1,45 @@
+COMMON	DATATYPE		type	WGS
+	DIVISION		division	ENV
+	KEYWORD		keyword	ENV
+			keyword	MAG
+			keyword	Metagenome Assembled Genome
+			keyword	WGS
+			keyword	HIGH_QUALITY_DRAFT
+	DBLINK		project	PRJDB99999
+			biosample	SAMD99999
+			biosample	SAND88888
+			sequence read archive	DRR998877
+			sequence read archive	DRR665544
+			sequence read archive	DRR332211
+	SUBMITTER		ab_name	Tanizawa,Y.
+			ab_name	Fujisawa,T.
+			ab_name	Ohishi,N.
+			contact	Yasuhiro Tanizawa
+			email	xxx@ddbj.nig.ac.jp
+			phone	000-000-000-000
+			institute	National Institute of Genetics
+			country	Japan
+			city	Mishima
+			street	Yata 1111
+			zip	411-8540
+			consrtm	Dogrun Inc.
+			department	DDBJ
+			state	Shizuoka
+	REFERENCE		ab_name	Tanizawa,Y.
+			ab_name	Fujisawa,T.
+			status	Published
+			year	2024
+			title	Draft genome sequencing of XXX
+			journal	Nature
+			volume	10
+			start_page	100
+			end_page	200
+	COMMENT		line	This is a test for the comment
+	COMMENT		line	Another comment block with 2 lines.
+			line	Second line of the comment
+	ST_COMMENT		tagset_id	Genome-Assembly-Data
+			Sequencing Technology	Illumina NovaSeq
+			Genome Coverage	200x
+			Assembly Method	Spades v. 1.0
+			Assembly Name	MpTak1
+	DATE		hold_date	20240830

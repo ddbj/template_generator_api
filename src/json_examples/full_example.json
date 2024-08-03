@@ -1,0 +1,86 @@
+{
+    "DATATYPE": {
+        "type": "WGS"
+    },
+    "DIVISION": {
+        "division": "ENV"
+    },
+    "KEYWORD": {
+        "keyword": [
+            "ENV",
+            "MAG",
+            "Metagenome Assembled Genome",
+            "WGS",
+            "HIGH_QUALITY_DRAFT"
+        ]
+    },
+    "DBLINK": {
+        "project": "PRJDB99999",
+        "biosample": [
+            "SAMD99999",
+            "SAND88888"
+        ],
+        "sequence read archive": [
+            "DRR998877",
+            "DRR665544",
+            "DRR332211"
+        ]
+    },
+    "SUBMITTER": {
+        "ab_name": [
+            "Tanizawa,Y.",
+            "Fujisawa,T.",
+            "Ohishi,N."
+        ],
+        "contact": "Yasuhiro Tanizawa",
+        "email": "xxx@ddbj.nig.ac.jp",
+        "phone": "000-000-000-000",
+        "institute": "National Institute of Genetics",
+        "country": "Japan",
+        "city": "Mishima",
+        "street": "Yata 1111",
+        "zip": "411-8540",
+        "consrtm": "Dogrun Inc.",
+        "department": "DDBJ",
+        "state": "Shizuoka"
+    },
+    "REFERENCE": [
+        {
+            "ab_name": [
+                "Tanizawa,Y.",
+                "Fujisawa,T."
+            ],
+            "status": "Published",
+            "year": 2024,
+            "title": "Draft genome sequencing of XXX",
+            "journal": "Nature",
+            "volume": "10",
+            "start_page": "100",
+            "end_page": "200"
+        }
+    ],
+    "COMMENT": [
+        {
+            "line": [
+                "This is a test for the comment"
+            ]
+        },
+        {
+            "line": [
+                "Another comment block with 2 lines.",
+                "Second line of the comment"
+            ]
+        }
+    ],
+    "ST_COMMENT": {
+        "tagset_id": "Genome-Assembly-Data",
+        "Sequencing Technology": "Illumina NovaSeq",
+        "Genome Coverage": "200x",
+        "Assembly Method": "Spades v. 1.0",
+        "Assembly Name": "MpTak1"
+    },
+    "_trad_submission_category": "MAG-WGS",
+    "DATE": {
+        "hold_date": "20240830"
+    }
+}

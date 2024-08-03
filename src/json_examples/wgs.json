@@ -1,0 +1,52 @@
+{
+  "DATATYPE": {
+    "type": "WGS"
+  },
+  "KEYWORD": {
+    "keyword": [
+      "WGS",
+      "STANDARD_DRAFT"
+    ]
+  },
+  "DBLINK": {
+    "biosample": [
+      "SAMD99999"
+    ],
+    "sequence read archive": [
+      "DRR999999"
+    ],
+    "project": "PRJD99999"
+  },
+  "SUBMITTER": {
+    "ab_name": [
+      "Suzuki,T.",
+      "Yamada,K."
+    ],
+    "contact": "Taro Suzuki",
+    "email": "ddbj@nig.ac.jp"
+  },
+  "REFERENCE": [
+    {
+        "ab_name": [
+        "Suzuki,T.",
+        "Yamada,K."
+        ],
+        "status": "Unpublished",
+        "year": 2024,
+        "title": "hoge fuga bar baz"
+  }
+  ],
+  "COMMENT": [
+    {"line": ["Good morning"]},
+    {"line": ["hello", "world"]}
+  ],  "ST_COMMENT": {
+    "tagset_id": "Genome-Assembly-Data",
+    "Sequencing Technology": "illumina",
+    "Genome Coverage": "200x",
+    "Assembly Method": "Spades v1.0"
+  },
+  "_submission_category": "WGS",
+  "DATE": {
+    "hold_date": "20240830"
+  }
+}
