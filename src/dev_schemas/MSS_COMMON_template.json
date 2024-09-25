@@ -138,7 +138,7 @@
                     "default": ""
                 },
                 "phext": {
-                    "title": "Email",
+                    "title": "Phone Extension",
                     "type": "string"
                 },
                 "fax": {
