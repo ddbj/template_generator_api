@@ -79,7 +79,7 @@
         "Assembly Method": "Spades v. 1.0",
         "Assembly Name": "MpTak1"
     },
-    "_trad_submission_category": "MAG-WGS",
+    "trad_submission_category": "MAG-WGS",
     "DATE": {
         "hold_date": "20240830"
     }

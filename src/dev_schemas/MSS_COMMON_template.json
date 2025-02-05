@@ -34,7 +34,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "ENV", "MAG", "Metagenome Assembled Genome"]
+                "enum": ["ENV", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "TSA", "Transcriptome Shotgun Assembly", "Metagenome Assembled Genome", "MAG"]
             },
             "uniqueItems": true
         },
@@ -404,7 +404,7 @@
     },
     "type": "object",
     "properties": {
-        "_trad_submission_category": {
+        "trad_submission_category": {
             "title": "Data Submission Category",
             "type": "string",
             "enum": [
@@ -428,9 +428,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "GNM"}
+                    "trad_submission_category": {"const": "GNM"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -446,9 +446,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "WGS"}
+                    "trad_submission_category": {"const": "WGS"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -490,9 +490,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "MAG"}
+                    "trad_submission_category": {"const": "MAG"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -513,10 +513,10 @@
                             "keyword": {
                                 "$ref": "#/definitions/q_keyword",
                                 "items": {
-                                    "enum": ["ENV", "MAG", "Metagenome Assembled Genome"]
+                                    "enum": ["ENV", "Metagenome Assembled Genome", "MAG"]
                                 },
-                                "default": ["ENV", "MAG", "Metagenome Assembled Genome"],
-                                "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}],
+                                "default": ["ENV", "Metagenome Assembled Genome", "MAG"],
+                                "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}, {"contains": {"const": "MAG"}}],
                                 "minItems": 3, "maxItems": 3
                             }
                         }
@@ -533,9 +533,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "MAG-WGS"}
+                    "trad_submission_category": {"const": "MAG-WGS"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -567,9 +567,9 @@
                             "keyword": {
                                 "$ref": "#/definitions/q_keyword",
                                 "items": {
-                                    "enum": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED"]
+                                    "enum": ["ENV", "WGS", "STANDARD_DRAFT", "HIGH_QUALITY_DRAFT", "IMPROVED_HIGH_QUALITY_DRAFT", "NON_CONTIGUOUS_FINISHED", "Metagenome Assembled Genome", "MAG"]
                                 },
-                                "default": ["ENV", "MAG", "Metagenome Assembled Genome", "WGS", "STANDARD_DRAFT"],
+                                "default": ["ENV", "WGS", "STANDARD_DRAFT", "Metagenome Assembled Genome", "MAG"],
                                 "allOf": [{"contains": {"const": "ENV"}}, {"contains": {"const": "MAG"}}, {"contains": {"const": "Metagenome Assembled Genome"}}, {"contains": {"const": "WGS"}}],
                                 "minItems": 5, "maxItems": 5
                             }
@@ -587,9 +587,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "TSA"}
+                    "trad_submission_category": {"const": "TSA"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -610,9 +610,9 @@
                             "keyword": {
                                 "$ref": "#/definitions/q_keyword",
                                 "items": {
-                                    "enum": ["TSA", "Transcriptome Shotgun Assembly"]
+                                    "enum": ["Transcriptome Shotgun Assembly", "TSA"]
                                 },
-                                "default": ["TSA", "Transcriptome Shotgun Assembly"],
+                                "default": ["Transcriptome Shotgun Assembly", "TSA"],
                                 "allOf": [{"contains": {"const": "TSA"}}, {"contains": {"const": "Transcriptome Shotgun Assembly"}}],
                                 "minItems": 2, "maxItems": 2
                             }
@@ -631,9 +631,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "MISC"}
+                    "trad_submission_category": {"const": "MISC"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {
@@ -666,9 +666,9 @@
         {
             "if": {
                 "properties": {
-                    "_trad_submission_category": {"const": "MISC"}
+                    "trad_submission_category": {"const": "MISC"}
                 },
-                "required": ["_trad_submission_category"]
+                "required": ["trad_submission_category"]
             },
             "then": {
                 "properties": {

@@ -35,7 +35,7 @@ function createFeature(featureName, featureValues) {
 function createCommon(commonJson) {
     let ret = [];
     for (const featureName in commonJson) {
-        if (commonJson.hasOwnProperty(featureName) && !featureName.startsWith("_")) {
+        if (commonJson.hasOwnProperty(featureName) && featureName != "trad_submission_category") {
             const featureValues = commonJson[featureName];
             ret = ret.concat(createFeature(featureName, featureValues));
         }

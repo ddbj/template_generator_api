@@ -45,7 +45,7 @@
     "Genome Coverage": "200x",
     "Assembly Method": "Spades v1.0"
   },
-  "_submission_category": "WGS",
+  "trad_submission_category": "WGS",
   "DATE": {
     "hold_date": "20240830"
   }

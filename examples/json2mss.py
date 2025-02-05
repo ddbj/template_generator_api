@@ -24,7 +24,7 @@ def create_feature(feature_name: str, feature_values: dict|list) -> list[list[st
 def create_common(common_json: dict) -> list[list[str]]:
     ret = []
     for feature_name, feature_values in common_json.items():
-        if not feature_name.startswith("_"):
+        if feature_name != "trad_submission_category":
             ret.extend(create_feature(feature_name, feature_values))
     if ret:
         ret[0][0] = "COMMON"
